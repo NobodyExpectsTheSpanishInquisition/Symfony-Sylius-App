@@ -1,0 +1,11 @@
+ARG IMAGE_TAG
+FROM php:${IMAGE_TAG}
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS && pecl install xdebug && docker-php-ext-enable xdebug
+
+COPY ./config/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+
+ARG HOST_IP
+RUN sed -i "s|<YOUR_COMPUTER_IP>|${HOST_IP}|g" /usr/local/etc/php/conf.d/xdebug.ini

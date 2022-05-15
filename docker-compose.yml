@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  sylius:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: dockerfile.sylius
+      args:
+        - IMAGE_TAG=${SYLIUS_IMAGE_TAG}
+        - HOST_IP=${HOST_IP}
+    volumes:
+      - ./shop:/var/www/html/shop:rw
+    container_name: sylius_dev
