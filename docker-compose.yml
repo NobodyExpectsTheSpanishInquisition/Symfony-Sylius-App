@@ -1,6 +1,17 @@
 version: "3.8"
 
 services:
+  db:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: dockerfile.postgres
+      args:
+        - IMAGE_TAG=${POSTGRES_IMAGE_TAG}
+    ports:
+      - "5432:5432"
+    container_name: sylius_db
   sylius:
     env_file:
       - .env
@@ -13,3 +24,6 @@ services:
     volumes:
       - ./shop:/var/www/html/shop:rw
     container_name: sylius_dev
+    depends_on:
+      - db
+
