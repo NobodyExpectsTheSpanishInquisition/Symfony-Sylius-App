@@ -6,11 +6,11 @@ services:
       - .env
     build:
       context: .
-      dockerfile: dockerfile.postgres
+      dockerfile: dockerfile.mysql
       args:
-        - IMAGE_TAG=${POSTGRES_IMAGE_TAG}
+        - IMAGE_TAG=${MYSQL_IMAGE_TAG}
     ports:
-      - "5432:5432"
+      - "3306:3306"
     container_name: sylius_db
   sylius:
     env_file:
