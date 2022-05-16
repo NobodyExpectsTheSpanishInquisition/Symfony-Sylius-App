@@ -26,4 +26,19 @@ services:
     container_name: sylius_dev
     depends_on:
       - db
-
+  nginx:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: dockerfile.server
+      args:
+        - IMAGE_TAG=${NGINX_IMAGE_TAG}
+    ports:
+      - '8080:80'
+    volumes:
+      - ./shop:/var/www/html/shop:ro
+      - ./shop-server.conf:/etc/nginx/conf.d/site.conf:rw
+    depends_on:
+      - sylius
+    container_name: sylius_server
